@@ -1,0 +1,5 @@
+# dsh-wake（尾波）：把本插件作为一行插进 profile 的条目列表。
+# name 必须是裸包名，客户端模块扫描靠它找到 package.json 的 dsh.client。
+- insert:
+    - id: wake
+      name: dsh-wake
