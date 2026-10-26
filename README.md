@@ -99,12 +99,31 @@
 
 - 配置：`<DSH_HOME>\wake.json`（旧版 `continue-speaking.json` 会自动读取迁移）
 - 想法：`<DSH_HOME>\wake-thoughts.json`（最近 20 条）
-- 想法动态队列：`<DSH_HOME>\bili-duty\dynamic-queue\*.json`（由刷B站插件每 15 秒处理）
+- 想法动态队列：`<DSH_HOME>\bili-duty\dynamic-queue\*.json`（由刷B站插件每 5 分钟处理）
 - 宿主路由：
-  - `GET /dsh-wake/state` —— 配置、会话清单、等待中、思考中、最近想法、最近记录
+  - `GET /dsh-wake/state` —— 配置、会话清单、等待中、思考中、最近想法、最近记录、更新状态
   - `POST /dsh-wake/save` —— `{ config }`
   - `POST /dsh-wake/test` —— `{ sessionId }`，立刻真发一句（勾选内、活着的会话）
   - `POST /dsh-wake/think` —— `{ sessionId }`，立刻安静地想一次
+  - `POST /dsh-wake/update/check` —— 检查 GitHub 新版本
+  - `POST /dsh-wake/update/apply` —— 下载并替换文件（重启后生效）
+
+## 自动更新
+
+- 设置 → 尾波 → **更新**：
+  - **自动更新**开关（默认关）；
+  - 仓库（默认 `Azurehzh/dsh-wake`，可改成自己的 fork）；
+  - **更新方式**：`GitHub API` / `git clone`；
+  - 「检查更新」「立即更新」两个按钮。
+- 启动 10 秒后查一次，之后每 6 小时查一次；只有开了自动更新才会自动落盘。
+- **API 模式**（默认，不需要 Git）：用 GitHub Contents API 拉 `package.json`、`cordis.patch.yml`、
+  `lib/index.js`、`lib/client.js`、README 等固定文件，旧文件备份到 `.update-backup-v<旧版本>-<时间戳>/`，
+  再原子替换。
+- **Git 模式**（需要本机安装 Git）：`git clone --depth 1 --single-branch --branch main` 到临时目录，
+  读 `package.json` 比版本；要更新时整包复制（跳过 `.git`、`node_modules`、旧备份），能拿到仓库里新增的文件。
+  没装 Git 时会明确报「本机没有可用的 git」，不影响插件运行。
+- **替换后必须重启 DSH** 才会用上新代码；设置页会显示「已更新到 vX，重启生效」。
+- 不开自动更新也能手动点「立即更新」。仓库不可达时只记录错误，不影响插件运行。
 
 ## 注意
 

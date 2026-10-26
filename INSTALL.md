@@ -15,7 +15,7 @@
    ```
 3. 重启 DSH。
 
-## 方式二：离线压缩包（dsh-wake-0.7.1.zip）
+## 方式二：离线压缩包（dsh-wake-0.9.0.zip）
 
 1. 解压，把 `dsh-wake` 整个文件夹放到：
    ```
@@ -30,10 +30,10 @@
 
 > `package.json` 必须存成 **UTF-8 无 BOM**。
 
-## 方式三：npm 包（dsh-wake-0.7.1.tgz）
+## 方式三：npm 包（dsh-wake-0.9.0.tgz）
 
 ```bash
-dsh plugin --profile web add file:D:\路径\dsh-wake-0.7.1.tgz
+dsh plugin --profile web add file:D:\路径\dsh-wake-0.9.0.tgz
 ```
 
 如果当前 CLI 不接受本地 tarball，就用方式二。
